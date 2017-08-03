@@ -44,11 +44,11 @@ VALUES = [['Mortgage Payment',
              'Monthly Books, Magazines, Tuition & Classes',
              'Monthly Electronics',
              'Other']]
+DATA_SIZE = 1
              
-def create_data_time_index():
+def create_data_time_index(data_size):
     """ create list with DataTime type"""
 
-    data_size = 100
     day = np.random.randint(1, 29, size=data_size)
     month = np.random.randint(1, 13, size=data_size)
     year = np.random.randint(2016, 2018, size=data_size)
@@ -57,22 +57,33 @@ def create_data_time_index():
     dates = pd.to_datetime(dates)
     
     return dates
-            
-def create_df(keys, values):
-    """ create DataFrame with multi columns,
-        all values equal zero """
+
+def create_random_values():
+    """ create numpy array with random values for DataFrame """
     
-    dictionary = {(category, value): [0] 
+    x = np.random.randint(1,100, size=31)
+    x = x.reshape(1,31)
+    
+    return x
+            
+def create_df(keys, values, data_size):
+    """ create DataFrame with multi columns,
+        all values are set random """
+    
+    dictionary = [(category, value) 
                     for index, category in enumerate(keys) 
-                    for value in values[index]}
-    index = create_data_time_index()
-    df = pd.DataFrame(dictionary, index=index)
+                    for value in values[index]]
+    index = create_data_time_index(data_size)
+    data = create_random_values()
+    df = pd.DataFrame(data=data, columns=dictionary, index=index)
     df.sort_index(inplace=True)
     
     return df
     
 
 
-df = create_df(CATEGORIES, VALUES)
-print(df.columns)
+df = create_df(CATEGORIES, VALUES, DATA_SIZE)
+print(df.shape)
+
+print(len(VALUES))
 ''' push random values into DataFrame '''
