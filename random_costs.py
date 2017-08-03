@@ -6,6 +6,7 @@ Created on Thu Aug  3 17:36:21 2017
 """
 
 import pandas as pd
+import numpy as np
 
 CATEGORIES = ['Housing Expenses', 
               'Auto and Transportation Expenses', 
@@ -44,16 +45,34 @@ VALUES = [['Mortgage Payment',
              'Monthly Electronics',
              'Other']]
              
-             
+def create_data_time_index():
+    """ create list with DataTime type"""
+
+    data_size = 100
+    day = np.random.randint(1, 29, size=data_size)
+    month = np.random.randint(1, 13, size=data_size)
+    year = np.random.randint(2016, 2018, size=data_size)
+    dates = np.column_stack([day, month, year])
+    dates = ['{}-{}-{}'.format(date[0], date[1], date[2]) for date in dates]
+    dates = pd.to_datetime(dates)
+    
+    return dates
+            
 def create_df(keys, values):
-    """create DataFrame with multi columns"""
+    """ create DataFrame with multi columns,
+        all values equal zero """
+    
     dictionary = {(category, value): [0] 
                     for index, category in enumerate(keys) 
                     for value in values[index]}
-    df = pd.DataFrame(dictionary)
+    index = create_data_time_index()
+    df = pd.DataFrame(dictionary, index=index)
+    df.sort_index(inplace=True)
     
     return df
+    
 
-create_df(CATEGORIES, VALUES)
-#df = pd.read_csv('liveing_expences_by_categories.txt', sep='\t', index_col=0, names=['Categories'], header=0)
-#print(df.head())
+
+df = create_df(CATEGORIES, VALUES)
+print(df.columns)
+''' push random values into DataFrame '''
