@@ -13,9 +13,23 @@ COST_FILE = 'annual_random_costs.xls'
 
 class raport():
     def create_data(self):
+        """ create new random values """
         df = random_costs.create_df()
-        print(df)
-    def import_data(self):
-        df = pd.read_excel(COST_FILE, header=[0, 1])
-        print(df)
+        
+        return df
+        
+    def import_data(self , file_name=COST_FILE):
+        """ import data from xls file """
+        try:
+            df = pd.read_excel(file_name, header=[0, 1])
+        except FileNotFoundError:
+            print('File does not exist')
+        else:
+            return df
+    
+    def display_monthly_costs(df):
+        pass
 
+costs_raport = raport()
+df = costs_raport.import_data()
+#print(df.shape)
