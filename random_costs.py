@@ -44,14 +44,14 @@ VALUES = [['Mortgage Payment',
              'Monthly Books, Magazines, Tuition & Classes',
              'Monthly Electronics',
              'Other']]
-DATA_SIZE = 1
+DATA_SIZE = 2
              
-def create_data_time_index(data_size):
+def create_data_time_index():
     """ create list with DataTime type"""
 
-    day = np.random.randint(1, 29, size=data_size)
-    month = np.random.randint(1, 13, size=data_size)
-    year = np.random.randint(2016, 2018, size=data_size)
+    day = np.random.randint(1, 29, size=DATA_SIZE)
+    month = np.random.randint(1, 13, size=DATA_SIZE)
+    year = np.random.randint(2016, 2018, size=DATA_SIZE)
     dates = np.column_stack([day, month, year])
     dates = ['{}-{}-{}'.format(date[0], date[1], date[2]) for date in dates]
     dates = pd.to_datetime(dates)
@@ -60,30 +60,34 @@ def create_data_time_index(data_size):
 
 def create_random_values():
     """ create numpy array with random values for DataFrame """
+    category_size = len(sum(VALUES, []))
+    data = np.random.randint(1,100, size=(category_size * DATA_SIZE))
+    data = data.reshape(DATA_SIZE, category_size)
     
-    x = np.random.randint(1,100, size=31)
-    x = x.reshape(1,31)
-    
-    return x
+    return data
             
-def create_df(keys, values, data_size):
+def create_df(keys=CATEGORIES, values=VALUES):
     """ create DataFrame with multi columns,
         all values are set random """
     
     dictionary = [(category, value) 
                     for index, category in enumerate(keys) 
                     for value in values[index]]
-    index = create_data_time_index(data_size)
+    index = create_data_time_index()
     data = create_random_values()
     df = pd.DataFrame(data=data, columns=dictionary, index=index)
+    #set MultiIndex
+    df.columns = pd.MultiIndex.from_tuples(df.columns)
     df.sort_index(inplace=True)
     
     return df
     
+def create_excel_file(df):
+    """ create excel from DataFrame
+        and save it in project dictionary """
+    
+    df.to_excel('annual_random_costs.xls')   
 
-
-df = create_df(CATEGORIES, VALUES, DATA_SIZE)
-print(df.shape)
-
-print(len(VALUES))
-''' push random values into DataFrame '''
+if __name__ == '__main__':
+    df = create_df(CATEGORIES, VALUES)
+    create_excel_file(df)
