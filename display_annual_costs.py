@@ -10,26 +10,46 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 COST_FILE = 'annual_random_costs.xls'
+DATA_SIZE = 1000
 
 class raport():
+    def __init__(self, data_size):
+        self.data_size = data_size
+        
     def create_data(self):
         """ create new random values """
-        df = random_costs.create_df()
+        
+        df = random_costs.create_df(data_size=self.data_size)
         
         return df
         
     def import_data(self , file_name=COST_FILE):
         """ import data from xls file """
+        
         try:
-            df = pd.read_excel(file_name, header=[0, 1])
+            df = pd.read_excel(file_name, header=[0, 1])         
         except FileNotFoundError:
-            print('File does not exist')
-        else:
+            print('File does not exist, your data was generated randomly')
+            df = self.create_data()
+        finally:
             return df
     
-    def display_monthly_costs(df):
-        pass
+    def display_monthly_costs(self, df):
+        """ display DataFrame with costs sum of month """        
+        
+        df_month = df.resample('M').sum()
+        df_month.sum(axis=1).plot()
+        plt.show()
+        plt.ylabel('Costs')
+        plt.xlabel('Date')
+        plt.title('Sum of costs')
+        plt.grid()
+        print(df_month.iloc[1])
+        print(df_month.iloc[1,(1,-1)])
+        
 
-costs_raport = raport()
-df = costs_raport.import_data()
+costs_raport = raport(DATA_SIZE)
+df = costs_raport.create_data()
+#print(df.head())
+costs_raport.display_monthly_costs(df)
 #print(df.shape)
