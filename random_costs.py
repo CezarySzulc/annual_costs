@@ -46,35 +46,35 @@ VALUES = [['Mortgage Payment',
              'Other']]
 DATA_SIZE = 2
              
-def create_data_time_index():
+def create_data_time_index(data_size):
     """ create list with DataTime type"""
 
-    day = np.random.randint(1, 29, size=DATA_SIZE)
-    month = np.random.randint(1, 13, size=DATA_SIZE)
-    year = np.random.randint(2016, 2018, size=DATA_SIZE)
+    day = np.random.randint(1, 29, size=data_size)
+    month = np.random.randint(1, 13, size=data_size)
+    year = np.random.randint(2016, 2018, size=data_size)
     dates = np.column_stack([day, month, year])
     dates = ['{}-{}-{}'.format(date[0], date[1], date[2]) for date in dates]
     dates = pd.to_datetime(dates)
     
     return dates
 
-def create_random_values():
+def create_random_values(data_size):
     """ create numpy array with random values for DataFrame """
     category_size = len(sum(VALUES, []))
-    data = np.random.randint(1,100, size=(category_size * DATA_SIZE))
-    data = data.reshape(DATA_SIZE, category_size)
+    data = np.random.randint(1,100, size=(category_size * data_size))
+    data = data.reshape(data_size, category_size)
     
     return data
             
-def create_df(keys=CATEGORIES, values=VALUES):
+def create_df(keys=CATEGORIES, values=VALUES, data_size=DATA_SIZE):
     """ create DataFrame with multi columns,
         all values are set random """
     
     dictionary = [(category, value) 
                     for index, category in enumerate(keys) 
                     for value in values[index]]
-    index = create_data_time_index()
-    data = create_random_values()
+    index = create_data_time_index(data_size)
+    data = create_random_values(data_size)
     df = pd.DataFrame(data=data, columns=dictionary, index=index)
     #set MultiIndex
     df.columns = pd.MultiIndex.from_tuples(df.columns)
@@ -89,5 +89,5 @@ def create_excel_file(df):
     df.to_excel('annual_random_costs.xls')   
 
 if __name__ == '__main__':
-    df = create_df(CATEGORIES, VALUES)
+    df = create_df()
     create_excel_file(df)
