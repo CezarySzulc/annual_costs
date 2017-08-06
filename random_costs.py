@@ -44,7 +44,7 @@ VALUES = [['Mortgage Payment',
              'Monthly Books, Magazines, Tuition & Classes',
              'Monthly Electronics',
              'Other']]
-DATA_SIZE = 2
+DATA_SIZE = 1000
              
 def create_data_time_index(data_size):
     """ create list with DataTime type"""

@@ -38,7 +38,7 @@ class raport():
         """ display DataFrame with costs sum of month """        
               
         df_month = df.resample('M').sum()
-        df_month.sum(axis=1).plot().area()
+        df_month.sum(axis=1).plot(marker = '.')
         plt.show()
         plt.ylabel('Costs')
         plt.xlabel('Date')
@@ -55,7 +55,7 @@ class raport():
         
 
 costs_raport = raport(DATA_SIZE)
-df = costs_raport.create_data()
+df = costs_raport.import_data()
 #print(df.head())
 costs_raport.display_monthly_costs(df)
 #print(df.shape)
