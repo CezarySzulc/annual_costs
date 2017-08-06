@@ -36,16 +36,22 @@ class raport():
     
     def display_monthly_costs(self, df):
         """ display DataFrame with costs sum of month """        
-        
+              
         df_month = df.resample('M').sum()
-        df_month.sum(axis=1).plot()
+        df_month.sum(axis=1).plot().area()
         plt.show()
         plt.ylabel('Costs')
         plt.xlabel('Date')
         plt.title('Sum of costs')
-        plt.grid()
-        print(df_month.iloc[1])
-        print(df_month.iloc[1,(1,-1)])
+
+        df_month.columns = df_month.columns.droplevel(1)
+        for category in df_month.columns.unique():
+            plt.figure()
+            print(df_month[category].sum(axis=1).plot())
+            plt.show()
+            plt.ylabel('Costs')
+            plt.xlabel('Date')
+            plt.title(category)
         
 
 costs_raport = raport(DATA_SIZE)
