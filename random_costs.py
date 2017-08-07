@@ -7,6 +7,8 @@ Created on Thu Aug  3 17:36:21 2017
 
 import pandas as pd
 import numpy as np
+from time import time
+
 
 CATEGORIES = ['Housing Expenses', 
               'Auto and Transportation Expenses', 
@@ -49,6 +51,7 @@ DATA_SIZE = 1000
 def create_data_time_index(data_size):
     """ create list with DataTime type"""
 
+    np.random.seed(int(time()))
     day = np.random.randint(1, 29, size=data_size)
     month = np.random.randint(1, 13, size=data_size)
     year = np.random.randint(2016, 2018, size=data_size)
@@ -60,8 +63,11 @@ def create_data_time_index(data_size):
 
 def create_random_values(data_size):
     """ create numpy array with random values for DataFrame """
+    
     category_size = len(sum(VALUES, []))
-    data = np.random.randint(1,100, size=(category_size * data_size))
+    np.random.seed(int(time()))
+    #normal distribution, mean=35, std=5
+    data = np.random.normal(35, 5, size=(category_size * data_size))
     data = data.reshape(data_size, category_size)
     
     return data
