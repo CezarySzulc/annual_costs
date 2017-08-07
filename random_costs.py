@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thu Aug  3 17:36:21 2017
-
 @author: C
 """
 
@@ -54,7 +52,7 @@ def create_data_time_index(data_size):
     np.random.seed(int(time()))
     day = np.random.randint(1, 29, size=data_size)
     month = np.random.randint(1, 13, size=data_size)
-    year = np.random.randint(2016, 2018, size=data_size)
+    year = np.random.randint(2016, 2017, size=data_size)
     dates = np.column_stack([day, month, year])
     dates = ['{}-{}-{}'.format(date[0], date[1], date[2]) for date in dates]
     dates = pd.to_datetime(dates)

@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 """
-Created on Fri Aug  4 19:03:56 2017
-
 @author: C
 """
 
@@ -54,8 +52,9 @@ class raport():
         plt.show()
         
 
-costs_raport = raport(DATA_SIZE)
-df = costs_raport.import_data()
-#print(df.head())
-costs_raport.display_monthly_costs(df)
-#print(df.shape)
+if __name__ == '__main__':
+    costs_raport = raport(DATA_SIZE)
+    df = costs_raport.import_data()
+    #print(df.head())
+    costs_raport.display_monthly_costs(df)
+    #print(df.shape)
