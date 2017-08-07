@@ -5,9 +5,10 @@ Created on Fri Aug  4 19:03:56 2017
 @author: C
 """
 
-import random_costs
+import random_costs, seaborn 
 import matplotlib.pyplot as plt
 import pandas as pd
+
 
 COST_FILE = 'annual_random_costs.xls'
 DATA_SIZE = 1000
@@ -36,22 +37,21 @@ class raport():
     
     def display_monthly_costs(self, df):
         """ display DataFrame with costs sum of month """        
-              
+        
+        seaborn.set()
+        fig, axis = plt.subplots(nrows=6, sharex=True)
+        
         df_month = df.resample('M').sum()
-        df_month.sum(axis=1).plot(marker = '.')
-        plt.show()
-        plt.ylabel('Costs')
-        plt.xlabel('Date')
-        plt.title('Sum of costs')
+        df_month.sum(axis=1).plot(ax=axis[0], marker = '.')
+        
+        axis[0].set_title('Sum of costs')
 
         df_month.columns = df_month.columns.droplevel(1)
-        for category in df_month.columns.unique():
-            plt.figure()
-            print(df_month[category].sum(axis=1).plot())
-            plt.show()
-            plt.ylabel('Costs')
-            plt.xlabel('Date')
-            plt.title(category)
+        for index, category in enumerate(df_month.columns.unique(), start=1):
+            df_month[category].sum(axis=1).plot(ax=axis[index], marker = '.')
+            axis[index].set_title(category)
+            
+        plt.show()
         
 
 costs_raport = raport(DATA_SIZE)
