@@ -43,18 +43,19 @@ class raport():
         df_month.sum(axis=1).plot(ax=axis[0], marker = '.')
         
         axis[0].set_title('Sum of costs')
-
+        axis[0].grid(b='on', which='major', color='k', linewidth=.5)
+        axis[0].grid(b='on', which='minor', color='k', linewidth=.25)
         df_month.columns = df_month.columns.droplevel(1)
         for index, category in enumerate(df_month.columns.unique(), start=1):
             df_month[category].sum(axis=1).plot(ax=axis[index], marker = '.')
             axis[index].set_title(category)
+            axis[index].grid(b='on', which='major', color='k', linewidth=.5)
+            axis[index].grid(b='on', which='minor', color='k', linewidth=.25)
             
         plt.show()
+     
         
-
 if __name__ == '__main__':
     costs_raport = raport(DATA_SIZE)
     df = costs_raport.import_data()
-    #print(df.head())
     costs_raport.display_monthly_costs(df)
-    #print(df.shape)
