@@ -64,8 +64,8 @@ def create_random_values(data_size):
     
     category_size = len(sum(VALUES, []))
     np.random.seed(int(time()))
-    #normal distribution, mean=35, std=5
-    data = np.random.normal(35, 5, size=(category_size * data_size))
+    #normal distribution, mean=35, std=2
+    data = np.random.normal(35, 2, size=(category_size * data_size))
     data = data.reshape(data_size, category_size)
     
     return data

@@ -11,7 +11,7 @@ import pandas as pd
 COST_FILE = 'annual_random_costs.xls'
 DATA_SIZE = 1000
 
-class raport():
+class Raport():
     def __init__(self, data_size):
         self.data_size = data_size
         
@@ -56,6 +56,6 @@ class raport():
      
         
 if __name__ == '__main__':
-    costs_raport = raport(DATA_SIZE)
+    costs_raport = Raport(DATA_SIZE)
     df = costs_raport.import_data()
     costs_raport.display_monthly_costs(df)
