@@ -32,7 +32,7 @@ class Predict(Raport):
                                     df_month['date'].values.reshape(-1,1), 
                                     df_month['costs'].values.reshape(-1,1), 
                                     test_size=0.3,
-                                    random_state=42)
+                                    random_state=43)
                 
     def create_linear_regression_model(self):
         """ crate Linear Regression model and test it """
@@ -54,9 +54,22 @@ class Predict(Raport):
         print('Ridge score:')
         print('best param \t{}'.format(model.best_params_))
         print('score:\t\t{}'.format(score))
+        
+    def create_lasso_model(self):
+        """ create lasso model and test it """
+        
+        param_grid = {'alpha': np.arange(0, 2, 0.1)}
+        
+        model = GridSearchCV(Lasso(), param_grid)
+        model.fit(self.X_train, self.y_train)
+        score = model.score(self.X_test, self.y_test)
+        print('Lasso score:')
+        print('best param \t{}'.format(model.best_params_))
+        print('score:\t\t{}'.format(score))
 
 if __name__ == '__main__':       
     cost_predict = Predict()
     cost_predict.prepare_data()
     cost_predict.create_linear_regression_model()
     cost_predict.create_ridge_model()
+    cost_predict.create_lasso_model()
