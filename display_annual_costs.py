@@ -39,7 +39,8 @@ class Raport():
         seaborn.set()
         fig, axis = plt.subplots(nrows=6, sharex=True)
         
-        df_month = df.resample('M').sum()
+        self.df_month = df.resample('M').sum()
+        df_month = self.df_month.copy()
         df_month.sum(axis=1).plot(ax=axis[0], marker = '.')
         
         axis[0].set_title('Sum of costs')
